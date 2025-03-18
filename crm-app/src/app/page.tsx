@@ -9,15 +9,14 @@ export default function Home() {
   const { user, loading } = useAuthContext();
 
   useEffect(() => {
+    // Only redirect if we're not loading
     if (!loading) {
-      if (user) {
-        router.replace('/dashboard');
-      } else {
-        router.replace('/login');
-      }
+      const path = user ? '/dashboard' : '/login';
+      router.replace(path);
     }
   }, [user, loading, router]);
 
+  // Show loading state while checking auth
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="text-center">

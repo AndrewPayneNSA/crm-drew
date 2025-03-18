@@ -6,12 +6,17 @@ export function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
   // Define public paths that don't require authentication
-  const isPublicPath = path === '/login' || path === '/signup';
+  const isPublicPath = path === '/login' || path === '/signup' || path === '/';
 
   // Get the token from the cookies
   const token = request.cookies.get('token')?.value || '';
 
-  // Redirect logic
+  // Allow access to root path without redirection
+  if (path === '/') {
+    return NextResponse.next();
+  }
+
+  // Redirect logic for other paths
   if (isPublicPath && token) {
     // If user is authenticated and tries to access login/signup, redirect to dashboard
     return NextResponse.redirect(new URL('/dashboard', request.url));
