@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useAuthContext } from '@/contexts/AuthContext';
+import { FirebaseError } from 'firebase/app';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -19,8 +20,12 @@ export default function LoginPage() {
       await login(email, password);
       const from = searchParams.get('from') || '/dashboard';
       router.push(from);
-    } catch (_error) {
-      setError('Invalid email or password');
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        setError(error.message);
+      } else {
+        setError('Invalid email or password');
+      }
     }
   };
 
