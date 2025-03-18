@@ -5,6 +5,11 @@ const nextConfig = {
   images: {
     domains: ['firebasestorage.googleapis.com'],
   },
+  experimental: {
+    swcPlugins: [
+      ['@swc/plugin-transform-imports', {}],
+    ],
+  },
   webpack: (config, { isServer }) => {
     // Fixes npm packages that depend on `fs` module
     if (!isServer) {
@@ -17,12 +22,21 @@ const nextConfig = {
       };
     }
 
+    // Handle private class fields
     config.module.rules.push({
       test: /\.m?js$/,
+      include: /node_modules/,
       type: 'javascript/auto',
       resolve: {
         fullySpecified: false,
       },
+      use: {
+        loader: 'babel-loader',
+        options: {
+          presets: ['@babel/preset-env'],
+          plugins: ['@babel/plugin-proposal-private-methods', '@babel/plugin-proposal-class-properties']
+        }
+      }
     });
 
     return config;
