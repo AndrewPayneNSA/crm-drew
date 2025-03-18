@@ -9,18 +9,13 @@ export default function Home() {
   const { user, loading } = useAuthContext();
 
   useEffect(() => {
-    const handleNavigation = async () => {
-      try {
-        if (!loading) {
-          const path = user ? '/dashboard' : '/login';
-          await router.replace(path);
-        }
-      } catch (error) {
-        console.error('Navigation error:', error);
+    if (!loading) {
+      if (user) {
+        router.replace('/dashboard');
+      } else {
+        router.replace('/login');
       }
-    };
-
-    handleNavigation();
+    }
   }, [user, loading, router]);
 
   // Show loading state while checking auth
