@@ -1,14 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
+  swcMinify: false, // Disable SWC minification to use Terser instead
   images: {
     domains: ['firebasestorage.googleapis.com'],
-  },
-  experimental: {
-    swcPlugins: [
-      ['@swc/plugin-transform-imports', {}],
-    ],
   },
   webpack: (config, { isServer }) => {
     // Fixes npm packages that depend on `fs` module
@@ -22,26 +17,32 @@ const nextConfig = {
       };
     }
 
-    // Handle private class fields
+    // Handle problematic modules
     config.module.rules.push({
       test: /\.m?js$/,
-      include: /node_modules/,
-      type: 'javascript/auto',
-      resolve: {
-        fullySpecified: false,
-      },
+      include: [
+        /node_modules\/(firebase|@firebase|undici)/,
+      ],
       use: {
         loader: 'babel-loader',
         options: {
-          presets: ['@babel/preset-env'],
-          plugins: ['@babel/plugin-proposal-private-methods', '@babel/plugin-proposal-class-properties']
+          presets: [
+            ['@babel/preset-env', {
+              targets: {
+                node: 'current',
+              },
+            }],
+          ],
+          plugins: [
+            '@babel/plugin-transform-private-methods',
+            '@babel/plugin-transform-class-properties'
+          ]
         }
       }
     });
 
     return config;
-  },
-  // Remove standalone output as it's not needed for Vercel
+  }
 };
 
 module.exports = nextConfig; 
