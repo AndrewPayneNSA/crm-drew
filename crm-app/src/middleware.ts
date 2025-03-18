@@ -5,9 +5,6 @@ export function middleware(request: NextRequest) {
   // Get the pathname of the request
   const path = request.nextUrl.pathname;
 
-  // Define public paths that don't require authentication
-  const isPublicPath = path === '/login' || path === '/signup' || path === '/';
-
   // For now, allow all requests to pass through
   // Authentication will be handled on the client side by the AuthContext
   return NextResponse.next();
