@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-export function middleware(request: NextRequest) {
+export function middleware(_request: NextRequest) {
   // For now, allow all requests to pass through
   // Authentication will be handled on the client side by the AuthContext
   return NextResponse.next();
