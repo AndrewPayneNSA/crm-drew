@@ -1,11 +1,12 @@
 'use client';
 
 import { ReactNode } from 'react';
+import { AuthProvider } from '@/contexts/AuthContext';
 
 interface ClientLayoutProps {
   children: ReactNode;
 }
 
 export default function ClientLayout({ children }: ClientLayoutProps) {
-  return <>{children}</>;
+  return <AuthProvider>{children}</AuthProvider>;
 } 
