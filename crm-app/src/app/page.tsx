@@ -1,22 +1,33 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthContext } from '@/contexts/AuthContext';
+import { auth } from '@/lib/firebase';
 
 export default function Home() {
   const router = useRouter();
   const { user, loading } = useAuthContext();
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
-    if (!loading) {
+    // Wait for Firebase Auth to initialize
+    const unsubscribe = auth.onAuthStateChanged(() => {
+      setIsInitialized(true);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    if (isInitialized && !loading) {
       if (user) {
         router.replace('/dashboard');
       } else {
         router.replace('/login');
       }
     }
-  }, [user, loading, router]);
+  }, [user, loading, router, isInitialized]);
 
   // Show loading state while checking auth
   return (
