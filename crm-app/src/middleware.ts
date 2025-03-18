@@ -8,25 +8,8 @@ export function middleware(request: NextRequest) {
   // Define public paths that don't require authentication
   const isPublicPath = path === '/login' || path === '/signup' || path === '/';
 
-  // Get the token from the cookies
-  const token = request.cookies.get('token')?.value || '';
-
-  // Allow access to root path without redirection
-  if (path === '/') {
-    return NextResponse.next();
-  }
-
-  // Redirect logic for other paths
-  if (isPublicPath && token) {
-    // If user is authenticated and tries to access login/signup, redirect to dashboard
-    return NextResponse.redirect(new URL('/dashboard', request.url));
-  }
-
-  if (!isPublicPath && !token) {
-    // If user is not authenticated and tries to access protected route, redirect to login
-    return NextResponse.redirect(new URL('/login', request.url));
-  }
-
+  // For now, allow all requests to pass through
+  // Authentication will be handled on the client side by the AuthContext
   return NextResponse.next();
 }
 
