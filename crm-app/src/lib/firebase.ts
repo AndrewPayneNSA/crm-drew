@@ -6,7 +6,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyAQD4K2Ad3QjTFjjySA7TWCxe8anHlfb9c",
   authDomain: "crm-drew.firebaseapp.com",
   projectId: "crm-drew",
-  storageBucket: "crm-drew.firebasestorage.app",
+  storageBucket: "crm-drew.appspot.com",
   messagingSenderId: "75812192063",
   appId: "1:75812192063:web:16da715bf6c00728861d8a"
 };
