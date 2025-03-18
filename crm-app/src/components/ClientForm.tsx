@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Client, ClientFormData, PaymentMethod } from '@/types/client';
+import { ClientFormData, PaymentMethod } from '@/types/client';
 
 interface ClientFormProps {
   initialData?: ClientFormData;

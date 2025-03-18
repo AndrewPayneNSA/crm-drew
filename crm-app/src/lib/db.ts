@@ -9,7 +9,6 @@ import {
   where,
   orderBy,
   Timestamp,
-  DocumentData,
 } from 'firebase/firestore';
 import { db } from './firebase';
 import { Client, ClientFormData } from '@/types/client';

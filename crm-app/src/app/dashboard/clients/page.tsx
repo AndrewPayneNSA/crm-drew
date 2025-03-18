@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useAuthContext } from '@/contexts/AuthContext';
 import { getClientsByUserId, addClient, updateClient, deleteClient } from '@/lib/db';
 import { Client, ClientFormData } from '@/types/client';
@@ -14,11 +14,7 @@ export default function ClientsPage() {
   const [showForm, setShowForm] = useState(false);
   const [editingClient, setEditingClient] = useState<Client | null>(null);
 
-  useEffect(() => {
-    fetchClients();
-  }, [user]);
-
-  const fetchClients = async () => {
+  const fetchClients = useCallback(async () => {
     if (user) {
       try {
         const fetchedClients = await getClientsByUserId(user.uid);
@@ -29,7 +25,11 @@ export default function ClientsPage() {
         setLoading(false);
       }
     }
-  };
+  }, [user]);
+
+  useEffect(() => {
+    fetchClients();
+  }, [fetchClients]);
 
   const handleAddClient = async (data: ClientFormData) => {
     if (user) {
