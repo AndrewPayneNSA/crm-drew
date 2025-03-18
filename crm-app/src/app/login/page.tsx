@@ -19,7 +19,7 @@ export default function LoginPage() {
       await login(email, password);
       const from = searchParams.get('from') || '/dashboard';
       router.push(from);
-    } catch (error) {
+    } catch (_error) {
       setError('Invalid email or password');
     }
   };
