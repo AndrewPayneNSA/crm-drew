@@ -2,9 +2,6 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
-  // Get the pathname of the request
-  const path = request.nextUrl.pathname;
-
   // For now, allow all requests to pass through
   // Authentication will be handled on the client side by the AuthContext
   return NextResponse.next();
